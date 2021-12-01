@@ -66,6 +66,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
      apt-get update 
      sudo add-apt-repository ppa:gns3/ppa
-     sudo apt-get install -y gns3
+     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gns3
   SHELL
 end
