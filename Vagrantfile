@@ -63,8 +63,5 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-     sudo add-apt-repository ppa:gns3/ppa
-     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gns3-server gns3-gui
-  SHELL
+  config.vm.provision "shell", path: "provision.sh"
 end
