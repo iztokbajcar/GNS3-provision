@@ -73,7 +73,7 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y gnome-session gnome-terminal gnome-tweaks gnome-shell-extension-ubuntu-docks
+apt-get install -y gnome-session gnome-terminal gnome-tweaks gnome-shell-extension-ubuntu-dock
 gnome-extensions enable ubuntu-dock@ubuntu.com
 
 # Installs GNS3
