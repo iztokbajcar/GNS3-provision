@@ -40,9 +40,9 @@ systemctl enable --now tomcat
 ufw allow 8080/tcp
 
 # Guacamole
-wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P ~
-tar xzf ~/guacamole-server-1.3.0.tar.gz
-cd ~/guacamole-server-1.3.0
+wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/vagrant
+tar xzf /home/vagrant/guacamole-server-1.3.0.tar.gz
+cd /home/vagrant/guacamole-server-1.3.0
 ./configure --with-init-dir=/etc/init.d
 make
 make install
@@ -52,8 +52,8 @@ systemctl start guacd
 systemctl enable guacd
 
 mkdir /etc/guacamole
-wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P ~
-mv ~/guacamole-1.3.0.war /etc/guacamole/guacamole.war
+wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P /home/vagrant
+mv /home/vagrant/guacamole-1.3.0.war /etc/guacamole/guacamole.war
 
 ln -s /etc/guacamole/guacamole.war /opt/tomcat/tomcatapp/webapps
 
@@ -73,8 +73,7 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y gnome-session gnome-terminal gnome-tweaks gnome-shell-extension-ubuntu-dock
-gnome-extensions enable ubuntu-dock@ubuntu.com
+apt-get install -y gnome-session gnome-terminal
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
