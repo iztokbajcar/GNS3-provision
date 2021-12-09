@@ -55,7 +55,7 @@ mkdir /etc/guacamole
 wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P /home/vagrant
 mv /home/vagrant/guacamole-1.3.0.war /etc/guacamole/guacamole.war
 
-ln -s /etc/guacamole/guacamole.war /opt/tomcat/tomcatapp/webapps
+ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
 
 echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee -a /etc/default/tomcat
 cat <<EOT > /etc/guacamole/guacamole.properties
@@ -65,7 +65,7 @@ user-mapping:    /etc/guacamole/user-mapping.xml
 auth-provider:    net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
 EOT
 
-ln -s /etc/guacamole /opt/tomcat/tomcatapp/.guacamole
+ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
 
 # TODO passwords
 
