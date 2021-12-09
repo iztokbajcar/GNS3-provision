@@ -1,4 +1,8 @@
+# Please change these to your desired values
+export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
+############################################
 
+export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
 export DEBIAN_FRONTEND=noninteractive 
 
 # Adds GNS3 ppa repository (and updates the package lists)
@@ -67,7 +71,24 @@ EOT
 
 ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
 
-# TODO passwords
+cat <<EOT > /etc/guacamole/user-mapping.xml
+<user-mapping>
+    <authorize username="admin"
+            password="$GUACAMOLE_ADMIN_PASSWORD_HASH"
+            encoding="md5"> <connection name="Ubuntu20.04-Server">
+            <protocol>SSH</protocol>
+            <param name="hostname">localhost</param>
+            <param name="port">22</param>
+            <param name="username">root</param>
+        </connection>
+        <connection name="RDP Server">
+            <protocol>rdp</protocol>
+            <param name="hostname">localhost</param>
+            <param name="port">3389</param>
+        </connection>
+    </authorize>
+</user-mapping>
+EOT
 
 systemctl restart tomcat guacd
 ufw allow 4822/tcp
