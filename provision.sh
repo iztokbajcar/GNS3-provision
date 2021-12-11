@@ -110,22 +110,31 @@ apt-get install -y gns3-server gns3-gui
 usermod -aG ubridge vagrant
 
 # VNC
-cat <<EOT > /etc/init/x11vnc.conf
-# description "Start x11vnc on system boot"
+mkdir /home/vagrant/.vnc
+touch /home/vagrant/.vnc/passwd
+chown vagrant:vagrant /home/vagrant/.vnc/passwd
+x11vnc -storepasswd $VNC_CONNECTION_PASSWORD /home/vagrant/.vnc/passwd
 
-description "x11vnc"
+cat <<EOT > /etc/systemd/system/x11vnc.service
+[Unit]
+Description=x11vnc remote desktop server
+After=multi-user.target
 
-start on runlevel [2345]
-stop on runlevel [^2345]
+[Service]
+User=vagrant
+Group=vagrant
+Type=simple
+ExecStart=/usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
 
-console log
+Restart=on-failure
 
-respawn
-respawn limit 20 5
-
-exec /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
+[Install]
+WantedBy=multi-user.target
 EOT
 
-x11vnc -storepasswd $VNC_CONNECTION_PASSWORD /home/vagrant/.vnc/passwd
+systemctl daemon-reload
+systemctl enable x11vnc
+
+#sudo -i -u vagrant x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
 
 reboot
