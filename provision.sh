@@ -1,7 +1,7 @@
 ##############################################
 # Please change these to your desired values #
 export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
-export VNC_CONNECTION_PASSWORD=MSIJeZ4k0n_%
+export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n_%
 ############################################
  
 export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
@@ -100,8 +100,8 @@ ufw allow 4822/tcp
 # Desktop
 apt-get install -y xserver-xorg-core openbox --no-install-recommends --no-install-suggests
 apt-get install -y xinit slim
-#apt-get install -y xinit slim
-#systemctl start slim
+sed -i '70s/.*/default_user vagrant/' /etc/slim.conf
+sed -i '78s/.*/auto_login yes/' /etc/slim.conf
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
@@ -126,6 +126,6 @@ respawn limit 20 5
 exec /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
 EOT
 
-printf "password\npassword\n\n" | sudo -i -u vagrant vncpasswd
+x11vnc -storepasswd $VNC_CONNECTION_PASSWORD /home/vagrant/.vnc/passwd
 
 reboot
