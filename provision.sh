@@ -1,7 +1,9 @@
-# Please change these to your desired values
+##############################################
+# Please change these to your desired values #
 export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
+export VNC_CONNECTION_PASSWORD=MSIJeZ4k0n_%
 ############################################
-
+ 
 export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
 export DEBIAN_FRONTEND=noninteractive 
 
@@ -9,8 +11,9 @@ export DEBIAN_FRONTEND=noninteractive
 add-apt-repository ppa:gns3/ppa
 
 # Guacamole dependencies
-apt-get install -y gcc vim curl wget g++ libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev \
-    build-essential libpango1.0-dev libssh2-1-dev libvncserver-dev libtelnet-dev libssl-dev libvorbis-dev libwebp-dev freerdp2-dev freerdp2-x11 openjdk-11-jdk tomcat9
+apt-get install -y gcc vim nano curl wget g++ libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev \
+    build-essential libvncserver-dev libtelnet-dev libssl-dev libwebp-dev openjdk-11-jdk tomcat9
+# libvorbis-dev
 
 # Tomcat
 cat <<EOT >> /etc/systemd/system/tomcat.service
@@ -81,10 +84,11 @@ cat <<EOT > /etc/guacamole/user-mapping.xml
             <param name="port">22</param>
             <param name="username">root</param>
         </connection>
-        <connection name="RDP Server">
-            <protocol>rdp</protocol>
+        <connection name="VNC">
+            <protocol>vnc</protocol>
             <param name="hostname">localhost</param>
-            <param name="port">3389</param>
+            <param name="port">5900</param>
+            <param name="username">vagrant</param>
         </connection>
     </authorize>
 </user-mapping>
@@ -94,12 +98,34 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y gnome-session gnome-terminal
+apt-get install -y xserver-xorg-core openbox --no-install-recommends --no-install-suggests
+apt-get install -y xinit slim
+#apt-get install -y xinit slim
+#systemctl start slim
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
 
 # Adds vagrant into the ubridge group
 usermod -aG ubridge vagrant
+
+# VNC
+cat <<EOT > /etc/init/x11vnc.conf
+# description "Start x11vnc on system boot"
+
+description "x11vnc"
+
+start on runlevel [2345]
+stop on runlevel [^2345]
+
+console log
+
+respawn
+respawn limit 20 5
+
+exec /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
+EOT
+
+printf "password\npassword\n\n" | sudo -i -u vagrant vncpasswd
 
 reboot
