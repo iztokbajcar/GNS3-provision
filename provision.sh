@@ -108,8 +108,8 @@ mkdir /home/vagrant/.config/openbox
 cat <<EOT > /home/vagrant/.config/openbox/autostart.sh
 xcompmgr &
 lxpanel &
+gns3
 EOT
-chown -R vagrant:vagrant /home/vagrant/.config/openbox
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
@@ -139,6 +139,8 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 EOT
+
+chown -R vagrant:vagrant /home/vagrant/.config/
 
 systemctl daemon-reload
 systemctl enable x11vnc
