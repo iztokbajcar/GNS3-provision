@@ -1,7 +1,7 @@
 ##############################################
 # Please change these to your desired values #
 export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
-export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n_%
+export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n
 ############################################
  
 export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
