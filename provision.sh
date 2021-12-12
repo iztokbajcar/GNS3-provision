@@ -103,8 +103,7 @@ apt-get install -y xinit slim
 sed -i '70s/.*/default_user vagrant/' /etc/slim.conf
 sed -i '78s/.*/auto_login yes/' /etc/slim.conf
 
-mkdir /home/vagrant/.config/
-mkdir /home/vagrant/.config/openbox
+mkdir -p /home/vagrant/.config/openbox
 cat <<EOT > /home/vagrant/.config/openbox/autostart.sh
 xcompmgr &
 lxpanel &
@@ -113,6 +112,96 @@ EOT
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
+mkdir -p /home/vagrant/.config/GNS3/2.2
+cat <<EOT > /home/vagrant/.config/GNS3/2.2/gns3_gui.conf
+{
+    "Builtin": {
+        "default_nat_interface": "virbr0"
+    },
+    "Docker": {
+        "containers": []
+    },
+    "Dynamips": {
+        "allocate_aux_console_ports": false,
+        "dynamips_path": "",
+        "ghost_ios_support": true,
+        "mmap_support": true,
+        "sparse_memory_support": true
+    },
+    "GraphicsView": {
+        "default_label_color": "#000000",
+        "default_label_font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+        "default_note_color": "#000000",
+        "default_note_font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+        "draw_link_status_points": true,
+        "draw_rectangle_selected_item": false,
+        "drawing_grid_size": 25,
+        "grid_size": 75,
+        "limit_size_node_symbols": true,
+        "scene_height": 1000,
+        "scene_width": 2000,
+        "show_grid": false,
+        "show_grid_on_new_project": false,
+        "show_interface_labels": false,
+        "show_interface_labels_on_new_project": false,
+        "show_layers": false,
+        "snap_to_grid": false,
+        "snap_to_grid_on_new_project": false,
+        "zoom": null
+    },
+    "IOU": {
+        "iourc_content": "",
+        "license_check": true
+    },
+    "MainWindow": {
+        "check_for_update": true,
+        "debug_level": 0,
+        "delay_console_all": 500,
+        "direct_file_upload": false,
+        "experimental_features": false,
+        "geometry": "",
+        "hdpi": false,
+        "hide_getting_started_dialog": true,
+        "hide_new_template_button": false,
+        "hide_setup_wizard": true,
+        "last_check_for_update": 0,
+        "multi_profiles": false,
+        "overlay_notifications": true,
+        "recent_files": [],
+        "recent_projects": [],
+        "send_stats": true,
+        "spice_console_command": "remote-viewer spice://%h:%p",
+        "state": "",
+        "stats_visitor_id": "757a5f9f-2dd8-46c4-b7d5-9b97cfc4c8bd",
+        "style": "Charcoal",
+        "symbol_theme": "Classic",
+        "telnet_console_command": "xterm -T \"%d\" -e \"telnet %h %p\"",
+        "vnc_console_command": "vncviewer %h:%p"
+    },
+    "NodesView": {
+        "nodes_view_filter": 0
+    },
+    "Qemu": {
+        "enable_hardware_acceleration": true,
+        "require_hardware_acceleration": true
+    },
+    "Servers": {},
+    "VMware": {
+        "block_host_traffic": false,
+        "host_type": "ws",
+        "vmnet_end_range": 100,
+        "vmnet_start_range": 2,
+        "vmrun_path": ""
+    },
+    "VPCS": {
+        "vpcs_path": ""
+    },
+    "VirtualBox": {
+        "vboxmanage_path": ""
+    },
+    "version": "2.2.27"
+}
+EOT
 
 # Adds vagrant into the ubridge group
 usermod -aG ubridge vagrant
