@@ -98,7 +98,7 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y xserver-xorg-core openbox lxpanel xcompmgr pcmanfm --no-install-recommends --no-install-suggests
+apt-get install -y xserver-xorg-core openbox lxpanel xcompmgr pcmanfm midori --no-install-recommends --no-install-suggests
 apt-get install -y xinit slim
 sed -i '70s/.*/default_user vagrant/' /etc/slim.conf
 sed -i '78s/.*/auto_login yes/' /etc/slim.conf
