@@ -111,7 +111,7 @@ gns3
 EOT
 
 # Installs GNS3
-apt-get install -y gns3-server gns3-gui
+apt-get install -y gns3-server=2.2.27~focal1 gns3-gui=2.2.27~focal1
 mkdir -p /home/vagrant/.config/GNS3/2.2
 cat <<EOT > /home/vagrant/.config/GNS3/2.2/gns3_gui.conf
 {
