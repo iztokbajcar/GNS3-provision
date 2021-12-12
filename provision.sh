@@ -98,10 +98,18 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y xserver-xorg-core openbox --no-install-recommends --no-install-suggests
+apt-get install -y xserver-xorg-core openbox lxpanel xcompmgr pcmanfm --no-install-recommends --no-install-suggests
 apt-get install -y xinit slim
 sed -i '70s/.*/default_user vagrant/' /etc/slim.conf
 sed -i '78s/.*/auto_login yes/' /etc/slim.conf
+
+mkdir /home/vagrant/.config/
+mkdir /home/vagrant/.config/openbox
+cat <<EOT > /home/vagrant/.config/openbox/autostart.sh
+xcompmgr &
+lxpanel &
+EOT
+chown -R vagrant:vagrant /home/vagrant/.config/openbox
 
 # Installs GNS3
 apt-get install -y gns3-server gns3-gui
