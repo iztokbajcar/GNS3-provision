@@ -44,7 +44,6 @@ EOT
 
 systemctl daemon-reload
 systemctl enable --now tomcat
-ufw allow 8080/tcp
 
 # Guacamole
 wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/vagrant
