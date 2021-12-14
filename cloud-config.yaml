@@ -1,34 +1,5 @@
 #cloud-config
-apt-sources:
- - source: "ppa:gns3/ppa"
-
-packages:
- - vim
- - curl 
- - wget
- - libcairo2-dev 
- - libjpeg-turbo8-dev 
- - libpng-dev 
- - libtool-bin
- - libossp-uuid-dev
- - libavcodec-dev
- - libavutil-dev
- - libswscale-dev
- - build-essential
- - libvncserver-dev
- - libtelnet-dev
- - libssl-dev
- - libwebp-dev
- - openjdk-11-jdk
- - tomcat9
- - openbox
- - lxpanel
- - gns3-server=2.2.27
- - gns3-gui=2.2.27
- - xserver-xorg-core
- - openbox
- - lxpanel
- - xcompmgr
- - pcmanfm
- - midori
- 
+runcmd:
+ # GESLA
+ - export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
+ - export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n
