@@ -11,7 +11,7 @@ export DEBIAN_FRONTEND=noninteractive
 add-apt-repository ppa:gns3/ppa
 
 # Guacamole dependencies
-apt-get install -y gcc vim nano curl wget g++ libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev \
+apt-get install -y vim nano curl wget libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev \
     build-essential libvncserver-dev libtelnet-dev libssl-dev libwebp-dev openjdk-11-jdk tomcat9
 # libvorbis-dev
 
