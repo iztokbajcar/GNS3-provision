@@ -1,5 +1,37 @@
 #cloud-config
+
+apt_sources:
+  - source: "ppa:gns3/ppa"
+packages:
+  - gns3-server
+  - gns3-gui
+  - vim
+  - nano
+  - curl
+  - wget
+  - libcairo2-dev
+  - libjpeg-turbo8-dev
+  - libpng-dev
+  - libtool-bin
+  - libossp-uuid-dev
+  - libavcodec-dev
+  - libavutil-dev
+  - libswscale-dev
+  - build-essential
+  - libvncserver-dev
+  - libtelnet-dev
+  - libssl-dev
+  - libwebp-dev
+  - openjdk-11-jdk
+  - tomcat9
+
 runcmd:
  # GESLA
  - export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
  - export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n
+ 
+ - export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
+ - export DEBIAN_FRONTEND=noninteractive
+ #- apt-get install -y vim nano curl wget libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev build-essential libvncserver-dev libtelnet-dev libssl-dev libwebp-dev openjdk-11-jdk tomcat9
+
+ - touch /home/ubuntu/$GUACAMOLE_ADMIN_PASSWORD_HASH
