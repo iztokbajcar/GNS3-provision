@@ -120,3 +120,6 @@ runcmd:
 
  - systemctl restart tomcat guacd
  - ufw allow 4822/tcp
+
+ - sed -i '70s/.*/default_user ubuntu/' /etc/slim.conf
+ - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
