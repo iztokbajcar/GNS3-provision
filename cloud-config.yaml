@@ -195,10 +195,10 @@ write_files:
       After=multi-user.target
 
       [Service]
-      User=vagrant
-      Group=vagrant
+      User=ubuntu
+      Group=ubuntu
       Type=simple
-      ExecStart=/usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
+      ExecStart=/usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/ubuntu/.vnc/passwd -rfbport 5900 -shared
 
       Restart=on-failure
 
@@ -242,6 +242,10 @@ runcmd:
 
  - usermod -aG ubridge ubuntu
 
+ - mkdir /home/ubuntu/.vnc
+ - touch /home/ubuntu/.vnc/passwd
+ - chown ubuntu:ubuntu /home/ubuntu/.vnc/passwd
+ - x11vnc -storepasswd GNS3JeZ4k0n /home/ubuntu/.vnc/passwd
  - systemctl daemon-reload
  - systemctl enable x11vnc
 
