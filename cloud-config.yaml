@@ -101,8 +101,5 @@ runcmd:
  - mv /home/ubuntu/guacamole-1.3.0.war /etc/guacamole/guacamole.war
 
  - ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
-
  - echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee -a /etc/default/tomcat
-  
-
  - ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
