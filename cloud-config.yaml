@@ -244,3 +244,5 @@ runcmd:
 
  - systemctl daemon-reload
  - systemctl enable x11vnc
+
+ - reboot
