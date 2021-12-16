@@ -117,3 +117,6 @@ runcmd:
  - ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
  - echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee -a /etc/default/tomcat
  - ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
+
+ - systemctl restart tomcat guacd
+ - ufw allow 4822/tcp
