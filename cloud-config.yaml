@@ -222,3 +222,5 @@ runcmd:
  - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
 
  - mkdir -p /home/ubuntu/.config/openbox
+ 
+ - usermod -aG ubridge ubuntu
