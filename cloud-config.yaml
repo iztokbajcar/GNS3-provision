@@ -73,15 +73,29 @@ write_files:
       auth-provider:    net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
     path: /etc/guacamole/guacamole.properties
 
+  - content: |
+      <user-mapping>
+          <authorize username="admin"
+                  password="51a12666ba6ba69e453bc08fa3c5c8a9"
+                  encoding="md5"> <connection name="Ubuntu20.04-Server">
+                  <protocol>SSH</protocol>
+                  <param name="hostname">localhost</param>
+                  <param name="port">22</param>
+                  <param name="username">root</param>
+              </connection>
+              <connection name="VNC">
+                  <protocol>vnc</protocol>
+                  <param name="hostname">localhost</param>
+                  <param name="port">5900</param>
+                  <param name="username">vagrant</param>
+              </connection>
+          </authorize>
+    </user-mapping>
+
 # TODO GNS3 config
 # TODO VNC config
 
 runcmd:
- # Default passwords
- - export GUACAMOLE_ADMIN_PASSWORD=Ge5L0
- - export VNC_CONNECTION_PASSWORD=GNS3JeZ4k0n
- 
- - export GUACAMOLE_ADMIN_PASSWORD_HASH=$(echo -n $GUACAMOLE_ADMIN_PASSWORD | openssl md5 | awk '{print $NF}')
  - export DEBIAN_FRONTEND=noninteractive
 
  # Guacamole
