@@ -59,8 +59,8 @@ write_files:
       Environment="CATALINA_PID=/opt/tomcat/tomcatapp/temp/tomcat.pid"
       Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
 
-      ExecStart=/opt/tomcat/tomcatapp/bin/startup.sh
-      ExecStop=/opt/tomcat/tomcatapp/bin/shutdown.sh
+      ExecStart=/usr/share/tomcat9/bin/startup.sh
+      ExecStop=/usr/share/tomcat9/bin/shutdown.sh
 
       [Install]
       WantedBy=multi-user.target
