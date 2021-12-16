@@ -24,14 +24,14 @@ packages:
   - libwebp-dev
   - openjdk-11-jdk
   - tomcat9
-
-  # Desktop
   - xserver-xorg-core
   - openbox
   - lxpanel
   - xcompmgr
   - pcmanfm
   - midori
+
+  # Desktop
   - xinit
   - slim
 
@@ -87,7 +87,7 @@ write_files:
                   <protocol>vnc</protocol>
                   <param name="hostname">localhost</param>
                   <param name="port">5900</param>
-                  <param name="username">vagrant</param>
+                  <param name="username">ubuntu</param>
               </connection>
           </authorize>
       </user-mapping>
@@ -97,7 +97,7 @@ write_files:
       xcompmgr &
       lxpanel &
       gns3
-    path: /home/vagrant/.config/openbox/autostart.sh
+    path: /home/ubuntu/.config/openbox/autostart.sh
 
   - content: |
       {
@@ -244,7 +244,7 @@ runcmd:
 
  - mkdir /home/ubuntu/.vnc
  - touch /home/ubuntu/.vnc/passwd
- - chown ubuntu:ubuntu /home/ubuntu/.vnc/passwd
+ - chown -R ubuntu:ubuntu /home/ubuntu/.vnc/
  - x11vnc -storepasswd GNS3JeZ4k0n /home/ubuntu/.vnc/passwd
  - systemctl daemon-reload
  - systemctl enable x11vnc
