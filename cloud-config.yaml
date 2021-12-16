@@ -188,6 +188,23 @@ write_files:
         "version": "2.2.27"
       }
     path: /home/ubuntu/.config/GNS3/2.2/gns3_gui.conf
+  
+  - content: |
+      [Unit]
+      Description=x11vnc remote desktop server
+      After=multi-user.target
+
+      [Service]
+      User=vagrant
+      Group=vagrant
+      Type=simple
+      ExecStart=/usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/vagrant/.vnc/passwd -rfbport 5900 -shared
+
+      Restart=on-failure
+
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/x11vnc.service
 
 # TODO GNS3 config
 # TODO VNC config
@@ -222,5 +239,8 @@ runcmd:
  - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
 
  - mkdir -p /home/ubuntu/.config/openbox
- 
+
  - usermod -aG ubridge ubuntu
+
+ - systemctl daemon-reload
+ - systemctl enable x11vnc
