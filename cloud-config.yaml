@@ -93,6 +93,12 @@ write_files:
       </user-mapping>
     path: /etc/guacamole/user-mapping.xml
 
+  - content: |
+      xcompmgr &
+      lxpanel &
+      gns3
+    path: /home/vagrant/.config/openbox/autostart.sh
+
 # TODO GNS3 config
 # TODO VNC config
 
@@ -124,3 +130,5 @@ runcmd:
 
  - sed -i '70s/.*/default_user ubuntu/' /etc/slim.conf
  - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
+
+ - mkdir -p /home/ubuntu/.config/openbox
