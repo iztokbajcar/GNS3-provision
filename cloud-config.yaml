@@ -217,6 +217,7 @@ runcmd:
  - apt-get remove -y gdm3 xwayland gnome-session
  # Guacamole
  - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/gns3
+ - cd /home/gns3/
  - tar xzf /home/gns3/guacamole-server-1.3.0.tar.gz
  - cd /home/gns3/guacamole-server-1.3.0
  - ./configure --with-init-dir=/etc/init.d
