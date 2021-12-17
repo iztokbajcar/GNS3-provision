@@ -37,8 +37,9 @@ packages:
   - midori
 
   # Desktop
-  - xinit
-  - slim
+  - gdm3
+  - gnome-session
+  - xwayland
 
   # GNS3
   - gns3-server
@@ -98,12 +99,6 @@ write_files:
           </authorize>
       </user-mapping>
     path: /etc/guacamole/user-mapping.xml
-
-  - content: |
-      xcompmgr &
-      lxpanel &
-      gns3
-    path: /home/gns3/.config/openbox/autostart.sh
 
   - content: |
       {
@@ -214,10 +209,9 @@ write_files:
 
 
 runcmd:
- - apt-get remove -y gdm3 xwayland gnome-session
  # Guacamole
  - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/gns3
- - tar xzf /home/gns3/guacamole-server-1.3.0.tar.gz
+ - tar -xzf /home/gns3/guacamole-server-1.3.0.tar.gz
  - cd /home/gns3/guacamole-server-1.3.0
  - ./configure --with-init-dir=/etc/init.d
  - make
@@ -237,11 +231,6 @@ runcmd:
 
  - systemctl restart tomcat guacd
  - ufw allow 4822/tcp
-
- - sed -i '70s/.*/default_user gns3/' /etc/slim.conf
- - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
-
- - mkdir -p /home/gns3/.config/openbox
 
  - usermod -aG ubridge gns3
 
