@@ -30,6 +30,7 @@ packages:
   - openjdk-11-jdk
   - tomcat9
   - xserver-xorg-core
+  - xserver-xorg-video-dummy
   - openbox
   - lxpanel
   - xcompmgr
@@ -45,6 +46,33 @@ packages:
   - gns3-gui
 
 write_files:
+  - content: |
+      Section "Monitor"
+      Identifier "Monitor0"
+      HorizSync 28.0-80.0
+      VertRefresh 48.0-75.0
+      # 1680x1050 @ 60.00 Hz (GTF) hsync: 65.22 kHz; pclk: 147.14 MHz
+      Modeline "1680x1050_60.00" 147.14 1680 1784 1968 2256 1050 1051 1054 1087 -HSync +Vsync
+      EndSection
+
+      Section "Device"
+        Identifier "Card0"
+        Driver "dummy"
+        VideoRam 256000
+      EndSection
+
+      Section "Screen"
+      DefaultDepth 24
+      Identifier "Screen0"
+      Device "Card0"
+      Monitor "Monitor0"
+          SubSection "Display"
+          Depth 24
+          Modes "1680x1050"    
+          EndSubSection
+      EndSection
+    path: /etc/X11/xorg.conf
+
   - content: |
       [Unit]
       Description=Tomcat 9 servlet container
@@ -91,7 +119,7 @@ write_files:
               </connection>
               <connection name="VNC">
                   <protocol>vnc</protocol>
-                  <param name="hostname">localhost</param>
+                  <param name="hostname">127.0.0.1</param>
                   <param name="port">5900</param>
                   <param name="username">gns3</param>
               </connection>
@@ -197,17 +225,14 @@ write_files:
   
   - content: |
       [Unit]
-      Description=x11vnc remote desktop server
-      After=multi-user.target
-     
+      Description="x11vnc"
+      Requires=display-manager.service
+      After=display-manager.service
       [Service]
-      User=gns3
-      Group=gns3
-      Type=simple
-      ExecStart=/usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /home/gns3/.vnc/passwd -rfbport 5900 -shared
-
+      ExecStart=/usr/bin/x11vnc -geometry 1920x1080 -loop -nopw -xkb -repeat -noxrecord -noxfixes -noxdamage -forever -rfbport 5900 -display :0 -auth /var/run/slim.auth
+      ExecStop=/usr/bin/killall x11vnc
       Restart=on-failure
-
+      RestartSec=2
       [Install]
       WantedBy=multi-user.target
     path: /etc/systemd/system/x11vnc.service
@@ -239,8 +264,8 @@ runcmd:
  - systemctl restart tomcat guacd
  - ufw allow 4822/tcp
 
- - sed -i '70s/.*/default_user gns3/' /etc/slim.conf
- - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
+#  - sed -i '70s/.*/default_user gns3/' /etc/slim.conf
+#  - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
 
  - mkdir -p /home/gns3/.config/openbox
 
