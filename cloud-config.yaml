@@ -281,4 +281,7 @@ runcmd:
  - systemctl daemon-reload
  - systemctl enable x11vnc
  - echo "$LOGIN_PASSWORD\n$LOGIN_PASSWORD\n\n" | sudo passwd ubuntu
+
+ - chown -R ubuntu:ubuntu /home/ubuntu
+
  - reboot
