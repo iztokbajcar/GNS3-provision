@@ -1,9 +1,4 @@
 #cloud-config
-users:
-  - name: gns3
-    groups: sudo
-    shell: /bin/bash
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
 
 apt_sources:
   - source: "ppa:gns3/ppa"
@@ -39,7 +34,7 @@ packages:
 
   # Desktop
   - xinit
-  - slim
+  - lightdm
 
   # GNS3
   - gns3-server
@@ -121,7 +116,7 @@ write_files:
                   <protocol>vnc</protocol>
                   <param name="hostname">127.0.0.1</param>
                   <param name="port">5900</param>
-                  <param name="username">gns3</param>
+                  <param name="username">ubuntu</param>
               </connection>
           </authorize>
       </user-mapping>
@@ -131,7 +126,7 @@ write_files:
       xcompmgr &
       lxpanel &
       gns3
-    path: /home/gns3/.config/openbox/autostart.sh
+    path: /home/ubuntu/.config/openbox/autostart.sh
 
   - content: |
       {
@@ -221,7 +216,7 @@ write_files:
         },
         "version": "2.2.27"
       }
-    path: /home/gns3/.config/GNS3/2.2/gns3_gui.conf
+    path: /home/ubuntu/.config/GNS3/2.2/gns3_gui.conf
   
   - content: |
       [Unit]
@@ -229,7 +224,7 @@ write_files:
       Requires=display-manager.service
       After=display-manager.service
       [Service]
-      ExecStart=/usr/bin/x11vnc -geometry 1920x1080 -loop -nopw -xkb -repeat -noxrecord -noxfixes -noxdamage -forever -rfbport 5900 -display :0 -auth /var/run/slim.auth
+      ExecStart=/usr/bin/x11vnc -geometry 1920x1080 -loop -nopw -xkb -repeat -noxrecord -noxfixes -noxdamage -forever -rfbport 5900 -display :0 -auth guess
       ExecStop=/usr/bin/killall x11vnc
       Restart=on-failure
       RestartSec=2
@@ -237,14 +232,21 @@ write_files:
       WantedBy=multi-user.target
     path: /etc/systemd/system/x11vnc.service
 
+  - content: |
+      [SeatDefaults]
+      autologin-user=ubuntu
+      autologin-user-timeout=0
+      user-session=openbox
+    path: /etc/lightdm/lightdm.conf
+
 
 runcmd:
  - apt-get remove -y gdm3 xwayland gnome-session
  # Guacamole
- - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/gns3
- - cd /home/gns3/
- - tar xzf /home/gns3/guacamole-server-1.3.0.tar.gz
- - cd /home/gns3/guacamole-server-1.3.0
+ - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/ubuntu
+ - cd /home/ubuntu/
+ - tar xzf /home/ubuntu/guacamole-server-1.3.0.tar.gz
+ - cd /home/ubuntu/guacamole-server-1.3.0
  - ./configure --with-init-dir=/etc/init.d
  - make
  - make install
@@ -254,8 +256,8 @@ runcmd:
  - systemctl enable guacd
 
  - mkdir /etc/guacamole
- - wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P /home/gns3
- - mv /home/gns3/guacamole-1.3.0.war /etc/guacamole/guacamole.war
+ - wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P /home/ubuntu
+ - mv /home/ubuntu/guacamole-1.3.0.war /etc/guacamole/guacamole.war
 
  - ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
  - echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee -a /etc/default/tomcat
@@ -264,18 +266,15 @@ runcmd:
  - systemctl restart tomcat guacd
  - ufw allow 4822/tcp
 
-#  - sed -i '70s/.*/default_user gns3/' /etc/slim.conf
-#  - sed -i '78s/.*/auto_login yes/' /etc/slim.conf
+ - mkdir -p /home/ubuntu/.config/openbox
 
- - mkdir -p /home/gns3/.config/openbox
+ - usermod -aG ubridge ubuntu
 
- - usermod -aG ubridge gns3
-
- - mkdir /home/gns3/.vnc
- - touch /home/gns3/.vnc/passwd
- - chown -R gns3:gns3 /home/gns3/.vnc/
- - chown -R gns3:gns3 /home/gns3/.config/
- - x11vnc -storepasswd GNS3JeZ4k0n /home/gns3/.vnc/passwd
+ - mkdir /home/ubuntu/.vnc
+ - touch /home/ubuntu/.vnc/passwd
+ - chown -R ubuntu:ubuntu /home/ubuntu/.vnc/
+ - chown -R ubuntu:ubuntu /home/ubuntu/.config/
+ - x11vnc -storepasswd GNS3JeZ4k0n /home/ubuntu/.vnc/passwd
  - systemctl daemon-reload
  - systemctl enable x11vnc
 
