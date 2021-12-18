@@ -110,7 +110,7 @@ write_files:
                   <protocol>SSH</protocol>
                   <param name="hostname">localhost</param>
                   <param name="port">22</param>
-                  <param name="username">root</param>
+                  <param name="username">ubuntu</param>
               </connection>
               <connection name="VNC">
                   <protocol>vnc</protocol>
@@ -242,6 +242,9 @@ write_files:
 
 runcmd:
  - apt-get remove -y gdm3 xwayland gnome-session
+
+ - export LOGIN_PASSWORD=GNS3JeZ4k0n
+
  # Guacamole
  - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/ubuntu
  - cd /home/ubuntu/
@@ -277,5 +280,5 @@ runcmd:
  - x11vnc -storepasswd GNS3JeZ4k0n /home/ubuntu/.vnc/passwd
  - systemctl daemon-reload
  - systemctl enable x11vnc
-
+ - echo "$LOGIN_PASSWORD\n$LOGIN_PASSWORD\n\n" | sudo passwd ubuntu
  - reboot
