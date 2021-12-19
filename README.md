@@ -15,14 +15,14 @@ Most cloud providers, such as [Amazon Web Services](https://aws.amazon.com/), [M
 After the dependencies are hopefully taken care of, make sure you have cloned this repository (you will find the instructions, as well as an option to download the whole repository as a zip file, on the top of this page in the Code dropdown menu - next to the About section). 
 
 # The passwords!
-When you get your hands on the contents, there is but one tiny thing, although very important, still for you to do before you jump into action. And that is ***to change the provided passwords***! Even if you are only going to be using your soon-to-be-created virtual machine on your local computer, do it for the sake of principle.
+When you get your hands on the contents, there is but one tiny thing, although very important, still for you to do before you jump into action. And that is ***to change the provided passwords*** - even if you are only going to be using your soon-to-be-created virtual machine on your local computer, do it for the sake of principle.
 
 ## Vagrant
 You will find the default passwords on the very top of the [provision.sh](provision.sh) script. To be precise, the passwords you are encouraged to change are the GUACAMOLE_ADMIN_PASSWORD and VNC_CONNECTION_PASSWORD environment variables, which, unsurprisingly, dictate the admin guacamole password[^1] and the password you will need when connecting to the machine.
 ## cloud-init
 The procedure to set up passwords for cloud-init differs a bit from the Vagrant alternative. In the [cloud-config.yaml](cloud-config.yaml) file: 
-* on line 108, change the text between the quotes according to your liking. It will represent the Guacamole admin password. The default value is **Ge5L0**.
-* on line 240, the text on the right side of the equals (`=`) sign will be your VNC connection password. The default value is **GNS3jeZ4k0n**.
+* on line 108, change the text between the quotes according to your liking. It will represent the Guacamole admin password.
+* on line 240, the text on the right side of the equals (`=`) sign will be your VNC connection password.
 
 # Let's begin
 Having set your desired passwords, you may now run the provision process. Please **be patient**, as it may take up to ten minutes or even more in some cases, depending on the speed/quality of your internet connection. If working on your local computer, the procedure goes as follows.
@@ -43,7 +43,7 @@ After the machine has started[^3], run
 ```
 multipass list
 ```
-to show some important information about the created virtual machine. Specifically, you are looking for the machine's IP address. For example, if you get an output like this:
+to show some important information about the created virtual machine. Specifically, you are looking for the machine's IP address, as the graphical interface will be available on http://IP:8080/guacamole, where **IP** is the VM's address. For example, if you get an output like this:
 ```
 Name                    State             IPv4             Image
 happy-drake             Running           10.176.100.69    Ubuntu 20.04 LTS
@@ -56,13 +56,13 @@ If everything went ok, you should be welcomed by this page upon connecting:
 ![The Apache Guacamole login page](screenshots/guacamole.png "The Apache Guacamole Login page")  
 Log in as **admin** with the password you specified earlier.
 
-Upon successful login you will be required to enter the VNC connection password. After that, a VNC session will be started, connecting you with the virtual machine's desktop.  
+Upon successful login you will be required to enter the VNC connection password. After that, a VNC session will be started, connecting you to the virtual machine's desktop.  
 ![Connecting to the VNC server](screenshots/connecting.png "Connecting to the VNC server")
 ![Entering the password](screenshots/password.png "Entering the password")
 
 ## Using the environment
 ![Your first interaction with the virtual machine (hopefully!)](screenshots/home.png "Your first interaction with the virtual machine (hopefully!)")
-GNS3 will automatically start, opening the project creation dialog. You can then use GNS3 as you would normally.  
+GNS3 will automatically start, opening the project creation dialog. You can then use GNS3 as you would normally do.  
 You are also provided with **Wireshark**, should you need it for packet capture, and **Midori** for browsing the web. As for now, using some kind of network storage services (e.g. [Google Drive](https://drive.google.com), [Dropbox](https://www.dropbox.com), etc.) via the web browser is the only way of transferring files between the VM and the host.
 
 You can access applications[^4] via the bottom panel menu or by right-clicking on the desktop area.
@@ -82,7 +82,7 @@ The scripts aim to create a (headless) virtual machine running Ubuntu 20.04. Som
 * File manager: [PCManFM](https://github.com/lxde/pcmanfm)  
 * And last but not least, [GNS3](https://www.gns3.com/) running both the server and GUI on the same machine and [Wireshark](https://www.wireshark.org/).
 
-[^1]: No, we are not talking about food, you will learn more about Guacamole later :slightly_smiling_face:
+[^1]: No, we are not talking about food, you can learn more about Guacamole in the [A peek under the hood](#a-peek-under-the-hood) :slightly_smiling_face:
 [^2]: Although the server, responsible for providing access to the box's desktop, actually runs on port 8080, it is forwarded to port 8088 as port 8080 is a port quite commonly in use and may as such already be occupied by some other software on your computer. If you run into errors nevertheless, e.g. if you get a message about Vagrant not being able to forward the specified port, you can always change the *host* port on line 31 of Vagrantfile, run `vagrant up` again and use that port to connect to the VM instead.
 [^3]: If after some time multipass throws a message like `launch failed: The following errors occurred: timed out waiting for initialization to complete` at you, your machine is most probably still getting set up and is just taking a lot of time. In that case, just try connecting as described, the `multipass list` command will still work. If the installation has finished, you will be presented with the Guacamole login screen. If not, give the process some more time and try again after a minute or two.
 [^4]: All mentioned applications, including GNS3, are available in the `Internet` submenu. A file manager and a terminal emulator can be found under `Utilities`. You can use **nano** (available via the terminal emulators) and **vim** for editing files.
