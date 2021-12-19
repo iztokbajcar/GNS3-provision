@@ -18,4 +18,10 @@ After the dependencies are hopefully taken care of, make sure you have cloned th
 When you get your hands on the contents, there is but one tiny thing, although very important, still for you to do before you jump into action. And that is ***to change the provided passwords***! If you are only going to be using your soon-to-be-created virtual machine on your local computer, do it anyway. For the sake of principle.
 
 ## Vagrant
-You will find the default passwords on the very top of the [provision.sh](provision.sh) script. To be precise, the passwords you are encouraged to change are the GUACAMOLE_ADMIN_PASSWORD and VNC_CONNECTION_PASSWORD environment variables, which, probably unsurprisingly, dictate the admin guacamole password and the password you will need when connecting to the machine. You will learn more about that later.
+You will find the default passwords on the very top of the [provision.sh](provision.sh) script. To be precise, the passwords you are encouraged to change are the GUACAMOLE_ADMIN_PASSWORD and VNC_CONNECTION_PASSWORD environment variables, which, probably unsurprisingly, dictate the admin guacamole password[^1] and the password you will need when connecting to the machine.
+## cloud-init
+The procedure to set up passwords for cloud-init differs a bit from the Vagrant alternative. In the [cloud-config.yaml](cloud-config.yaml) file: 
+* on line 107, change the text between the quotes according to your liking. It will represent the Guacamole admin password. The default value is **Ge5L0**.
+* on line 245, the text on the right side of the equals (`=`) sign will be your VNC connection password, as well as the desktop login password. The default value is **GNS3jeZ4k0n**.
+
+[^1]: No, we are not a Mexican restaurant, you will learn more about Guacamole later :slightly_smiling_face:
