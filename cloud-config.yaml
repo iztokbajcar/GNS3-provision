@@ -105,12 +105,6 @@ write_files:
       <user-mapping>
           <authorize username="admin"
               password="Ge5L0">
-              <connection name="Ubuntu20.04-Server">
-                  <protocol>SSH</protocol>
-                  <param name="hostname">localhost</param>
-                  <param name="port">22</param>
-                  <param name="username">ubuntu</param>
-              </connection>
               <connection name="VNC">
                   <protocol>vnc</protocol>
                   <param name="hostname">127.0.0.1</param>
