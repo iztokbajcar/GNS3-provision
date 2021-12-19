@@ -76,13 +76,8 @@ ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
 cat <<EOT > /etc/guacamole/user-mapping.xml
 <user-mapping>
     <authorize username="admin"
-            password="$GUACAMOLE_ADMIN_PASSWORD_HASH"
-            encoding="md5"> <connection name="Ubuntu20.04-Server">
-            <protocol>SSH</protocol>
-            <param name="hostname">localhost</param>
-            <param name="port">22</param>
-            <param name="username">root</param>
-        </connection>
+        password="$GUACAMOLE_ADMIN_PASSWORD_HASH"
+        encoding="md5"> 
         <connection name="VNC">
             <protocol>vnc</protocol>
             <param name="hostname">localhost</param>
