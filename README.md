@@ -68,6 +68,15 @@ You are also provided with **Wireshark**, should you need it for packet capture,
 You can access applications[^4] via the bottom panel menu or by right-clicking on the desktop area.
 ![Bringing up the main menu](screenshots/mainmenu.png "Bringing up the main menu") ![Right-clicking the desktop also brings up a menu](screenshots/menu.png "Right-clicking the desktop also brings up a menu")
 
+# A peek under the hood
+The scripts aim to create a (headless) virtual machine running Ubuntu 20.04. Some of the included software packages that are worth mentioning:
+* Display server: [Xorg](https://www.x.org/wiki/)
+* Window manager: [Openbox](http://openbox.org/wiki/Main_Page) with the **Xcompmgr** composite manager, featuring the [LXPanel](https://github.com/lxde/lxpanel) desktop panel
+* Greeter: 
+  - [Slim](https://en.wikipedia.org/wiki/SLiM) (if using Vagrant)
+  - [Unity greeter](https://github.com/canonical/lightdm) - as a part of LightDM (if using cloud-init)
+* VNC Server: [x11vnc](https://github.com/LibVNC/x11vnc)
+
 [^1]: No, we are not a Mexican restaurant, you will learn more about Guacamole later :slightly_smiling_face:
 [^2]: Although the server, responsible for providing access to the box's desktop, actually runs on port 8080, it is forwarded to port 8088 as port 8080 is a port quite commonly in use and may as such already be occupied by some other software on your computer. If you run into errors nevertheless, e.g. if you get a message about Vagrant not being able to forward the specified port, you can always change the *host* port on line 31 of Vagrantfile, run `vagrant up` again and use that port to connect to the VM instead.
 [^3]: If after some time multipass throws a message like `launch failed: The following errors occurred: timed out waiting for initialization to complete` at you, your machine is most probably still getting set up and is just taking a lot of time. In that case, just try connecting as described, the `multipass list` command will still work. If the installation has finished, you will be presented with the Guacamole login screen. If not, give the process some more time and try again after a minute or two.
