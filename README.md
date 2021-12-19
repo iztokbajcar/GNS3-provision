@@ -52,8 +52,11 @@ you should soon be able to access your machine via the browser at **http://10.17
 
 # The gatekeeper
 If everything went ok, you should be welcomed by this page upon connecting:
-![The Apache Guacamole login page](screenshots/guacamole.png "The Apache Guacamole Login page")
-Log in as **admin** with the password you specified earlier. 
+![The Apache Guacamole login page](screenshots/guacamole.png "The Apache Guacamole Login page")  
+Log in as **admin** with the password you specified earlier.
+
+Upon successful login a VNC session will be started, connecting you with the virtual machine's desktop.
+![Connecting to the VNC server](screenshots/connecting.png "Connecting to the VNC server")
 
 [^1]: No, we are not a Mexican restaurant, you will learn more about Guacamole later :slightly_smiling_face:
 [^2]: Although the server, responsible for providing access to the box's desktop, actually runs on port 8080, it is forwarded to port 8088 as port 8080 is a port quite commonly in use and may as such already be occupied by some other software on your computer. If you run into errors nevertheless, e.g. if you get a message about Vagrant not being able to forward the specified port, you can always change the *host* port on line 31 of Vagrantfile, run `vagrant up` again and use that port to connect to the VM instead.
