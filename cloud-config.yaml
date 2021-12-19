@@ -1,0 +1,286 @@
+#cloud-config
+
+apt_sources:
+  - source: "ppa:gns3/ppa"
+  
+packages:
+  # Guacamole dependencies
+  - vim
+  - nano
+  - curl
+  - wget
+  - libcairo2-dev
+  - libjpeg-turbo8-dev
+  - libpng-dev
+  - libtool-bin
+  - libossp-uuid-dev
+  - libavcodec-dev
+  - libavutil-dev
+  - libswscale-dev
+  - build-essential
+  - libvncserver-dev
+  - libtelnet-dev
+  - libssl-dev
+  - libwebp-dev
+  - openjdk-11-jdk
+  - tomcat9
+  - xserver-xorg-core
+  - xserver-xorg-video-dummy
+  - openbox
+  - lxpanel
+  - xcompmgr
+  - pcmanfm
+  - midori
+
+  # Desktop
+  - xinit
+  - lightdm
+
+  # GNS3
+  - gns3-server
+  - gns3-gui
+
+write_files:
+  - content: |
+      Section "Monitor"
+      Identifier "Monitor0"
+      HorizSync 28.0-80.0
+      VertRefresh 48.0-75.0
+      # 1680x1050 @ 60.00 Hz (GTF) hsync: 65.22 kHz; pclk: 147.14 MHz
+      Modeline "1680x1050_60.00" 147.14 1680 1784 1968 2256 1050 1051 1054 1087 -HSync +Vsync
+      EndSection
+
+      Section "Device"
+        Identifier "Card0"
+        Driver "dummy"
+        VideoRam 256000
+      EndSection
+
+      Section "Screen"
+      DefaultDepth 24
+      Identifier "Screen0"
+      Device "Card0"
+      Monitor "Monitor0"
+          SubSection "Display"
+          Depth 24
+          Modes "1680x1050"    
+          EndSubSection
+      EndSection
+    path: /etc/X11/xorg.conf
+
+  - content: |
+      [Unit]
+      Description=Tomcat 9 servlet container
+      After=network.target
+      
+      [Service]
+      Type=forking
+
+      User=tomcat
+      Group=tomcat
+
+      Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
+      Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+      Environment="CATALINA_BASE=/opt/tomcat/tomcatapp"
+      Environment="CATALINA_HOME=/opt/tomcat/tomcatapp"
+      Environment="CATALINA_PID=/opt/tomcat/tomcatapp/temp/tomcat.pid"
+      Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+      ExecStart=/usr/share/tomcat9/bin/startup.sh
+      ExecStop=/usr/share/tomcat9/bin/shutdown.sh
+
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/tomcat.service
+
+  - content: |
+      guacd-hostname: localhost
+      guacd-port:    4822
+      user-mapping:    /etc/guacamole/user-mapping.xml
+      auth-provider:    net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+    path: /etc/guacamole/guacamole.properties
+
+  - content: |
+      <user-mapping>
+          <authorize username="admin"
+              password="Ge5L0">
+              <connection name="Ubuntu20.04-Server">
+                  <protocol>SSH</protocol>
+                  <param name="hostname">localhost</param>
+                  <param name="port">22</param>
+                  <param name="username">ubuntu</param>
+              </connection>
+              <connection name="VNC">
+                  <protocol>vnc</protocol>
+                  <param name="hostname">127.0.0.1</param>
+                  <param name="port">5900</param>
+                  <param name="username">ubuntu</param>
+              </connection>
+          </authorize>
+      </user-mapping>
+    path: /etc/guacamole/user-mapping.xml
+
+  - content: |
+      xcompmgr &
+      lxpanel &
+      gns3
+    path: /home/ubuntu/.config/openbox/autostart.sh
+
+  - content: |
+      {
+        "Builtin": {
+            "default_nat_interface": "virbr0"
+        },
+        "Docker": {
+            "containers": []
+        },
+        "Dynamips": {
+            "allocate_aux_console_ports": false,
+            "dynamips_path": "",
+            "ghost_ios_support": true,
+            "mmap_support": true,
+            "sparse_memory_support": true
+        },
+        "GraphicsView": {
+            "default_label_color": "#000000",
+            "default_label_font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+            "default_note_color": "#000000",
+            "default_note_font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+            "draw_link_status_points": true,
+            "draw_rectangle_selected_item": false,
+            "drawing_grid_size": 25,
+            "grid_size": 75,
+            "limit_size_node_symbols": true,
+            "scene_height": 1000,
+            "scene_width": 2000,
+            "show_grid": false,
+            "show_grid_on_new_project": false,
+            "show_interface_labels": false,
+            "show_interface_labels_on_new_project": false,
+            "show_layers": false,
+            "snap_to_grid": false,
+            "snap_to_grid_on_new_project": false,
+            "zoom": null
+        },
+        "IOU": {
+            "iourc_content": "",
+            "license_check": true
+        },
+        "MainWindow": {
+            "check_for_update": true,
+            "debug_level": 0,
+            "delay_console_all": 500,
+            "direct_file_upload": false,
+            "experimental_features": false,
+            "geometry": "",
+            "hdpi": false,
+            "hide_getting_started_dialog": true,
+            "hide_new_template_button": false,
+            "hide_setup_wizard": true,
+            "last_check_for_update": 0,
+            "multi_profiles": false,
+            "overlay_notifications": true,
+            "recent_files": [],
+            "recent_projects": [],
+            "send_stats": true,
+            "spice_console_command": "remote-viewer spice://%h:%p",
+            "state": "",
+            "stats_visitor_id": "757a5f9f-2dd8-46c4-b7d5-9b97cfc4c8bd",
+            "style": "Charcoal",
+            "symbol_theme": "Classic",
+            "telnet_console_command": "xterm -T \"%d\" -e \"telnet %h %p\"",
+            "vnc_console_command": "vncviewer %h:%p"
+        },
+        "NodesView": {
+            "nodes_view_filter": 0
+        },
+        "Qemu": {
+            "enable_hardware_acceleration": true,
+            "require_hardware_acceleration": true
+        },
+        "Servers": {},
+        "VMware": {
+            "block_host_traffic": false,
+            "host_type": "ws",
+            "vmnet_end_range": 100,
+            "vmnet_start_range": 2,
+            "vmrun_path": ""
+        },
+        "VPCS": {
+            "vpcs_path": ""
+        },
+        "VirtualBox": {
+            "vboxmanage_path": ""
+        },
+        "version": "2.2.27"
+      }
+    path: /home/ubuntu/.config/GNS3/2.2/gns3_gui.conf
+  
+  - content: |
+      [Unit]
+      Description="x11vnc"
+      Requires=display-manager.service
+      After=display-manager.service
+      [Service]
+      ExecStart=/usr/bin/x11vnc -geometry 1920x1080 -loop -nopw -xkb -repeat -noxrecord -noxfixes -noxdamage -forever -rfbport 5900 -display :0 -auth guess
+      ExecStop=/usr/bin/killall x11vnc
+      Restart=on-failure
+      RestartSec=2
+      [Install]
+      WantedBy=multi-user.target
+    path: /etc/systemd/system/x11vnc.service
+
+  - content: |
+      [SeatDefaults]
+      autologin-user=ubuntu
+      autologin-user-timeout=0
+      user-session=openbox
+    path: /etc/lightdm/lightdm.conf
+
+
+runcmd:
+ - apt-get remove -y gdm3 xwayland gnome-session
+
+ - export LOGIN_PASSWORD=GNS3JeZ4k0n
+
+ # Guacamole
+ - wget https://downloads.apache.org/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz -P /home/ubuntu
+ - cd /home/ubuntu/
+ - tar xzf /home/ubuntu/guacamole-server-1.3.0.tar.gz
+ - cd /home/ubuntu/guacamole-server-1.3.0
+ - ./configure --with-init-dir=/etc/init.d
+ - make
+ - make install
+ - ldconfig
+ - systemctl daemon-reload
+ - systemctl start guacd
+ - systemctl enable guacd
+
+ - mkdir /etc/guacamole
+ - wget https://downloads.apache.org/guacamole/1.3.0/binary/guacamole-1.3.0.war -P /home/ubuntu
+ - mv /home/ubuntu/guacamole-1.3.0.war /etc/guacamole/guacamole.war
+
+ - ln -s /etc/guacamole/guacamole.war /var/lib/tomcat9/webapps/
+ - echo "GUACAMOLE_HOME=/etc/guacamole" | sudo tee -a /etc/default/tomcat
+ - ln -s /etc/guacamole /var/lib/tomcat9/webapps/.guacamole
+
+ - systemctl restart tomcat guacd
+ - ufw allow 4822/tcp
+
+ - mkdir -p /home/ubuntu/.config/openbox
+
+ - usermod -aG ubridge ubuntu
+
+ - mkdir /home/ubuntu/.vnc
+ - touch /home/ubuntu/.vnc/passwd
+ - chown -R ubuntu:ubuntu /home/ubuntu/.vnc/
+ - chown -R ubuntu:ubuntu /home/ubuntu/.config/
+ - x11vnc -storepasswd $LOGIN_PASSWORD /home/ubuntu/.vnc/passwd
+ - systemctl daemon-reload
+ - systemctl enable x11vnc
+ - echo "$LOGIN_PASSWORD\n$LOGIN_PASSWORD\n\n" | sudo passwd ubuntu
+
+ - chown -R ubuntu:ubuntu /home/ubuntu
+
+ - reboot
