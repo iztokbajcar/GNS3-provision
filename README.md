@@ -58,7 +58,7 @@ Log in as **admin** with the password you specified earlier.
 
 Upon successful login you will be required to enter the VNC connection password. After that, a VNC session will be started, connecting you with the virtual machine's desktop.  
 ![Connecting to the VNC server](screenshots/connecting.png "Connecting to the VNC server")
-![Entering the password](screenshot/password.png "Entering the password")
+![Entering the password](screenshots/password.png "Entering the password")
 
 ## Using GNS3
 ![Your first interaction with the virtual machine (hopefully!)](screenshots/home.png "Your first interaction with the virtual machine (hopefully!)")
