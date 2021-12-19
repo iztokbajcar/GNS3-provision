@@ -60,9 +60,13 @@ Upon successful login you will be required to enter the VNC connection password.
 ![Connecting to the VNC server](screenshots/connecting.png "Connecting to the VNC server")
 ![Entering the password](screenshots/password.png "Entering the password")
 
-## Using GNS3
+## Using the environment
 ![Your first interaction with the virtual machine (hopefully!)](screenshots/home.png "Your first interaction with the virtual machine (hopefully!)")
-GNS3 will automatically start, opening the project creation dialog.
+GNS3 will automatically start, opening the project creation dialog. You can then use GNS3 as you would normally.  
+You are also provided with **Wireshark**, should you need it for packet capture, and **Midori** for browsing the web. As for now, using some kind of network storage services (e.g. [Google Drive](https://drive.google.com), [Dropbox](https://www.dropbox.com), etc.) via the web browser is the only way of transferring files between the VM and the host.
+
+You can access applications via the bottom panel menu or by right-clicking on the desktop area.
+![Bringing up the main menu](screenshots/mainmenu.png "Bringing up the main menu") ![Right-clicking the desktop also brings up a menu](screenshots/menu.png "Right-clicking the desktop also brings up a menu")
 
 [^1]: No, we are not a Mexican restaurant, you will learn more about Guacamole later :slightly_smiling_face:
 [^2]: Although the server, responsible for providing access to the box's desktop, actually runs on port 8080, it is forwarded to port 8088 as port 8080 is a port quite commonly in use and may as such already be occupied by some other software on your computer. If you run into errors nevertheless, e.g. if you get a message about Vagrant not being able to forward the specified port, you can always change the *host* port on line 31 of Vagrantfile, run `vagrant up` again and use that port to connect to the VM instead.
