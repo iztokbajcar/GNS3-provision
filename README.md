@@ -80,7 +80,7 @@ The scripts aim to create a (headless) virtual machine running Ubuntu 20.04. Som
 * [Apache Guacamole](https://guacamole.apache.org/)[^6] - a remote desktop gateway, in this case used instead of a standalone VNC client for ease of use (a standard web browser is everything the user needs)
 * Web browser: [Midori](https://astian.org/en/midori-browser/) - because it is lightweight, but still capable of most things a browser should be able to do nowadays
 * File manager: [PCManFM](https://github.com/lxde/pcmanfm)  
-* And last but not least, [GNS3](https://www.gns3.com/) running both the server and GUI on the same machine and [Wireshark](https://www.wireshark.org/).
+* And last but not least, [GNS3](https://www.gns3.com/) running both the server and GUI on the same machine, and [Wireshark](https://www.wireshark.org/).
 
 [^1]: No, we are not talking about food, you can learn more about Guacamole in the [A peek under the hood](#a-peek-under-the-hood) section :slightly_smiling_face:
 [^2]: Although the server, responsible for providing access to the box's desktop, actually runs on port 8080, it is forwarded to port 8088 as port 8080 is a port quite commonly in use and may as such already be occupied by some other software on your computer. If you run into errors nevertheless, e.g. if you get a message about Vagrant not being able to forward the specified port, you can always change the *host* port on line 31 of Vagrantfile, run `vagrant up` again and use that port to connect to the VM instead.
