@@ -27,6 +27,7 @@ packages:
   - xserver-xorg-core
   - xserver-xorg-video-dummy
   - openbox
+  - obconf
   - lxpanel
   - xcompmgr
   - pcmanfm
