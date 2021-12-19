@@ -92,10 +92,37 @@ systemctl restart tomcat guacd
 ufw allow 4822/tcp
 
 # Desktop
-apt-get install -y xserver-xorg-core openbox obconf lxpanel xcompmgr pcmanfm midori --no-install-recommends --no-install-suggests
+apt-get install -y xserver-xorg-core xserver-xorg-video-dummy openbox obconf lxpanel xcompmgr pcmanfm midori --no-install-recommends --no-install-suggests
 apt-get install -y xinit slim
 sed -i '70s/.*/default_user vagrant/' /etc/slim.conf
 sed -i '78s/.*/auto_login yes/' /etc/slim.conf
+
+cat <<EOT > /etc/X11/xorg.conf
+Section "Monitor"
+    Identifier "Monitor0"
+    HorizSync 28.0-80.0
+    VertRefresh 48.0-75.0
+    # 1680x1050 @ 60.00 Hz (GTF) hsync: 65.22 kHz; pclk: 147.14 MHz
+    Modeline "1680x1050_60.00" 147.14 1680 1784 1968 2256 1050 1051 1054 1087 -HSync +Vsync
+    EndSection
+
+    Section "Device"
+    Identifier "Card0"
+    Driver "dummy"
+    VideoRam 256000
+    EndSection
+
+    Section "Screen"
+    DefaultDepth 24
+    Identifier "Screen0"
+    Device "Card0"
+    Monitor "Monitor0"
+        SubSection "Display"
+        Depth 24
+        Modes "1680x1050"    
+        EndSubSection
+EndSection
+EOT
 
 mkdir -p /home/vagrant/.config/openbox
 cat <<EOT > /home/vagrant/.config/openbox/autostart.sh
