@@ -14,7 +14,7 @@ Most cloud providers, such as [Amazon Web Services](https://aws.amazon.com/), [M
 
 After the dependencies are hopefully taken care of, make sure you have cloned this repository (you will find the instructions, as well as an option to download the whole repository as a zip file, on the top of this page in the Code dropdown menu - next to the About section). 
 
-# The passwords?
+# The passwords!
 When you get your hands on the contents, there is but one tiny thing, although very important, still for you to do before you jump into action. And that is ***to change the provided passwords***! Even if you are only going to be using your soon-to-be-created virtual machine on your local computer, do it for the sake of principle.
 
 ## Vagrant
