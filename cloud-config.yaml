@@ -104,8 +104,7 @@ write_files:
   - content: |
       <user-mapping>
           <authorize username="admin"
-              password="51a12666ba6ba69e453bc08fa3c5c8a9"
-              encoding="md5">
+              password="Ge5L0">
               <connection name="Ubuntu20.04-Server">
                   <protocol>SSH</protocol>
                   <param name="hostname">localhost</param>
@@ -277,7 +276,7 @@ runcmd:
  - touch /home/ubuntu/.vnc/passwd
  - chown -R ubuntu:ubuntu /home/ubuntu/.vnc/
  - chown -R ubuntu:ubuntu /home/ubuntu/.config/
- - x11vnc -storepasswd GNS3JeZ4k0n /home/ubuntu/.vnc/passwd
+ - x11vnc -storepasswd $LOGIN_PASSWORD /home/ubuntu/.vnc/passwd
  - systemctl daemon-reload
  - systemctl enable x11vnc
  - echo "$LOGIN_PASSWORD\n$LOGIN_PASSWORD\n\n" | sudo passwd ubuntu
