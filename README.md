@@ -65,7 +65,7 @@ Upon successful login you will be required to enter the VNC connection password.
 GNS3 will automatically start, opening the project creation dialog. You can then use GNS3 as you would normally do.  
 You are also provided with **Wireshark**, should you need it for packet capture, and **Midori** for browsing the web. As for now, using some kind of network storage services (e.g. [Google Drive](https://drive.google.com), [Dropbox](https://www.dropbox.com), etc.) via the web browser is the only way of transferring files between the VM and the host.
 
-You can access applications[^4] via the bottom panel menu or by right-clicking on the desktop area.
+You can access applications[^4] via the bottom panel menu or by right-clicking on the desktop area.  
 ![Bringing up the main menu](screenshots/mainmenu.png "Bringing up the main menu") ![Right-clicking the desktop also brings up a menu](screenshots/menu.png "Right-clicking the desktop also brings up a menu")
 
 # A peek under the hood
